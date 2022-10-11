@@ -27,7 +27,7 @@ export default function Calculator() {
                     <span>Seu IMC é: 21,26</span>
                 </Result>
             </Form>
-            {/* <Table /> */}
+            <Table />
         </CalculatorStyle>
     )
 }
@@ -37,7 +37,7 @@ const CalculatorStyle = styled.div`
     flex-direction:column;
     justify-content:space-between;
     background-color:red;
-    width:600px;
+    width:680px;
     height:650px;
     margin:auto;
     background-color:#fff;
@@ -50,7 +50,7 @@ const CalculatorStyle = styled.div`
     h1{
         font-size:25px;
         text-align:center;
-        margin:50px auto 0px auto;
+        margin:25px auto 30px auto;
         color:#F43E06;
         font-size:32px;
         font-family:sans-serif;
@@ -81,7 +81,7 @@ const Form = styled.div`
             input{
                 width:175px;
                 height:30px;
-                border:1px solid gray;
+                border:1px solid #bebebe;
                 border-radius:4px;
                 font-size:16px;
                 padding:0 8px;
@@ -106,15 +106,16 @@ const Form = styled.div`
 `
 
 const Result = styled.div`
-    width:150px;
-    height: 42px;
+    width:180px;
+    height: 62px;
     background-color:red;
-    margin:50px auto;
+    margin:25px auto 15px auto;
     text-align:center;
-    padding-top:12px;
+    padding-top:20px;
     background-color:#F43E06;
     color:#fff;
-    font-size:16px;
+    font-size:18px;
     font-weight:bold;
     font-family:sans-serif;
+    border-radius:8px;
 `
