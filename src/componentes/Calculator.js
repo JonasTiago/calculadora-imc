@@ -1,10 +1,40 @@
+import { useState } from "react"
 import styled from "styled-components"
 import Table from "./Table"
 
 export default function Calculator() {
+    const [imc, setImc] = useState('00,00');
+    const [dados, setDados] = useState(
+        {
+            altura: '',
+            peso: ''
+        }
+    );
+
+    function CollectData(e) {
+        setDados({
+            ...dados,
+            [e.target.name]: /[0-9.,]*/.exec(e.target.value),
+        }
+        );
+    };
+
+    function calcImc() {
+        setImc((dados.peso[0].replace(',', '.') /
+         (parseFloat(dados.altura[0].replace(',', '.')) * parseFloat(dados.altura[0].replace(',', '.')))).toFixed(2));
+        
+    };
+
+    function clearDate() {
+        setDados(
+            {
+                altura: '',
+                peso: ''
+            }
+        );
+    };
 
 
-    
     return (
         <CalculatorStyle>
             <h1>Calculadora de IMC</h1>
@@ -12,22 +42,29 @@ export default function Calculator() {
                 <section>
                     <div>
                         <p>Altura</p>
-                        <input type="text" name="altura" />
+                        <input type="text"
+                            name="altura"
+                            value={dados.altura}
+                            onChange={CollectData} />
                     </div>
                     <div>
                         <p>Peso</p>
-                        <input type="text" name="peso" />
+                        <input
+                            type="text"
+                            name="peso"
+                            value={dados.peso}
+                            onChange={CollectData} />
                     </div>
                 </section>
                 <section>
-                    <button>Limpar</button>
-                    <button>Calcular</button>
+                    <button onClick={clearDate}>Limpar</button>
+                    <button onClick={calcImc}>Calcular</button>
                 </section>
                 <Result>
-                    <span>Seu IMC é: 21,26</span>
+                    <span>Seu IMC é: {imc}</span>
                 </Result>
             </Form>
-            <Table />
+            <Table imc={imc} />
         </CalculatorStyle>
     )
 }

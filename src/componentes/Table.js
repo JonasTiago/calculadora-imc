@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
-export default function Table() {
+export default function Table(imc) {
     const imcs = [
         { imc: 'MENOR QUE 18,5', rating: 'MAGRESA', grau: 0 },
         { imc: 'MENOR QUE 18,5', rating: 'NORMAL', grau: 0 },
