@@ -3,7 +3,8 @@ import styled from "styled-components"
 import Table from "./Table"
 
 export default function Calculator() {
-    const [imc, setImc] = useState('00,00');
+    const [imc, setImc] = useState('');
+    const [result, setResult] = useState('')
     const [dados, setDados] = useState(
         {
             altura: '',
@@ -20,9 +21,22 @@ export default function Calculator() {
     };
 
     function calcImc() {
-        setImc((dados.peso[0].replace(',', '.') /
-         (parseFloat(dados.altura[0].replace(',', '.')) * parseFloat(dados.altura[0].replace(',', '.')))).toFixed(2));
-        
+        const imcFinal = (parseFloat(dados.peso[0].replace(',', '.')) /
+            (parseFloat(dados.altura[0].replace(',', '.')) * parseFloat(dados.altura[0].replace(',', '.')))).toFixed(2);
+
+        setImc(imcFinal);
+
+        if (imcFinal < 18.5) {
+            setResult('MAGRESA')
+        } else if (imcFinal <= 24.4) {
+            setResult('NORMAL')
+        } else if (imcFinal >= 25 && imcFinal <= 29.9) {
+            setResult('SOBREPESO')
+        } else if (30 <= imcFinal && imcFinal <= 39.9) {
+            setResult('OBESIDADE')
+        } else {
+            setResult('OBESIDADE GRAVE')
+        };
     };
 
     function clearDate() {
@@ -32,13 +46,14 @@ export default function Calculator() {
                 peso: ''
             }
         );
+        setResult('')
+        setImc('')
     };
-
 
     return (
         <CalculatorStyle>
             <h1>Calculadora de IMC</h1>
-            <Form>
+            <Form imcResult={imc}>
                 <section>
                     <div>
                         <p>Altura</p>
@@ -58,13 +73,15 @@ export default function Calculator() {
                 </section>
                 <section>
                     <button onClick={clearDate}>Limpar</button>
-                    <button onClick={calcImc}>Calcular</button>
+                    <button onClick={() => dados.altura > 0 && dados.peso > 0 ?
+                        calcImc() :
+                        alert('Dados incorretos!')}>Calcular</button>
                 </section>
-                <Result>
-                    <span>Seu IMC é: {imc}</span>
-                </Result>
             </Form>
-            <Table imc={imc} />
+            <Result imcResult={imc}>
+                <span>Seu IMC é: {imc}</span>
+            </Result>
+            <Table result={result} />
         </CalculatorStyle>
     )
 }
@@ -78,7 +95,7 @@ const CalculatorStyle = styled.div`
     height:650px;
     margin:auto;
     background-color:#fff;
-    box-shadow:0 0 3px black;
+    box-shadow:0 0 5px #9ca3af;
     padding:32px;
     align-items:center;
     margin: 5% auto;
@@ -88,7 +105,7 @@ const CalculatorStyle = styled.div`
         font-size:25px;
         text-align:center;
         margin:25px auto 30px auto;
-        color:#F43E06;
+        color:#e44a18;
         font-size:32px;
         font-family:sans-serif;
         font-weight:bold;
@@ -98,6 +115,7 @@ const CalculatorStyle = styled.div`
 const Form = styled.div`
     display:flex;
     flex-direction:column;
+    margin-bottom:${props => props.imcResult > 0 ? "" : '110px'};
     section{
         display:flex;
     
@@ -143,13 +161,14 @@ const Form = styled.div`
 `
 
 const Result = styled.div`
+    display:${props => props.imcResult > 0 ? "intial" : 'none'};
     width:180px;
     height: 62px;
     background-color:red;
     margin:25px auto 15px auto;
     text-align:center;
     padding-top:20px;
-    background-color:#F43E06;
+    background-color:#f53a00;
     color:#fff;
     font-size:18px;
     font-weight:bold;
