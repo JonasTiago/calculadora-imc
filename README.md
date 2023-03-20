@@ -1,4 +1,4 @@
-# Jogo da forca
+# Calculadora ICM
 
 Esse projeto consiste em uma simples calculadora de IMC, desenvolvida com React.js.
 
